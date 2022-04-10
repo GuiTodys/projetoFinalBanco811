@@ -34,11 +34,6 @@ public class ContaServiceImpl implements ContaService {
     private final ContaRequestMapper contaRequestMapper = ContaRequestMapper.INSTANCE;
 
     @Override
-    public List<ContaView> getAllViewByTipoConta(TipoConta tipoConta) {
-        return contaRepository.findAllByTipoConta(tipoConta);
-    }
-
-    @Override
     public Conta createConta(Integer id, ContaRequest contaRequest) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> UserNotFoundException.builder().build());
         Conta conta = contaRequestMapper.toDomain(contaRequest, usuario);
@@ -51,6 +46,10 @@ public class ContaServiceImpl implements ContaService {
         return contaResponseMapper.toResponse(conta);
     }
 
+    @Override
+    public List<ContaView> getAllViewByTipoConta(TipoConta tipoConta) {
+        return contaRepository.findAllByTipoConta(tipoConta);
+    }
 
     @Override
     public Page<ContaResponse> getallContas(int pageNumber, int pageSize) {
